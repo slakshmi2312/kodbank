@@ -16,6 +16,8 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
+  'https://kodbanktokenauthentication.vercel.app',
+  'http://kodbanktokenauthentication.vercel.app',
   process.env.FRONTEND_URL, // Set this in backend .env for production
 ].filter(Boolean); // Remove undefined values
 
@@ -27,6 +29,7 @@ app.use(cors({
     if (allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
       callback(null, true);
     } else {
+      console.log('CORS blocked origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },

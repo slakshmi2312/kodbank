@@ -85,11 +85,16 @@ async function login(req, res) {
       [token, user.uid, expiry]
     );
 
+    // Cookie settings for cross-origin (Vercel frontend + separate backend)
+    const isProduction = process.env.NODE_ENV === 'production';
+    const isCrossOrigin = process.env.FRONTEND_URL && process.env.FRONTEND_URL.includes('vercel.app');
+    
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: isProduction || isCrossOrigin, // Secure required for cross-origin cookies
+      sameSite: isCrossOrigin ? 'none' : 'lax', // 'none' required for cross-origin
       maxAge: 60 * 60 * 1000,
+      domain: isCrossOrigin ? undefined : undefined, // Let browser handle domain
     });
 
     res.json({ message: 'Login successful', username: user.username });

@@ -23,8 +23,16 @@ export default function Dashboard() {
         origin: { y: 0.6 },
       });
     } catch (err) {
+      // Handle different error types
       if (err.response?.status === 401) {
-        navigate('/login');
+        setError('Session expired. Please login again.');
+        setTimeout(() => navigate('/login'), 2000);
+        return;
+      }
+      // Network error - backend not reachable
+      if (err.code === 'ERR_NETWORK' || !err.response) {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+        setError(`Cannot reach backend API. Check if backend is running at ${apiUrl}. If deployed, set VITE_API_URL in Vercel environment variables.`);
         return;
       }
       setError(err.response?.data?.error || 'Failed to fetch balance');
