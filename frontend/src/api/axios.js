@@ -16,7 +16,8 @@
 import axios from 'axios';
 
 // Use environment variable for production, fallback to localhost for development
-const baseURL = import.meta.env.VITE_API_URL || 'https://kodbank-pzd4.onrender.com/api';
+// Never hardcode production URLs - always use VITE_API_URL environment variable
+const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 const api = axios.create({
   baseURL,
