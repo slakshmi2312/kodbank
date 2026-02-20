@@ -1,10 +1,22 @@
 /**
  * Axios instance with credentials for httpOnly cookie (JWT)
- * Use direct backend URL so registration works even if Vite proxy is not used
+ * 
+ * PRODUCTION SETUP:
+ * - Set VITE_API_URL environment variable in Vercel:
+ *   - Vercel Dashboard → Settings → Environment Variables
+ *   - Name: VITE_API_URL
+ *   - Value: https://kodbank-pzd4.onrender.com/api (or your backend URL)
+ *   - Environments: Production, Preview, Development
+ * 
+ * LOCAL DEVELOPMENT:
+ * - If VITE_API_URL is not set, defaults to http://localhost:5001/api
+ * - Backend should be running on port 5001 locally
+ * - Vite proxy (vite.config.js) handles /api requests in dev mode
  */
 import axios from 'axios';
 
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Use environment variable for production, fallback to localhost for development
+const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 const api = axios.create({
   baseURL,
