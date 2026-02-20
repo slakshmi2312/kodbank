@@ -21,8 +21,14 @@ export default function Register() {
       await api.post('/register', form);
       navigate('/login');
     } catch (err) {
-      const message = err.response?.data?.error
-        || (err.code === 'ERR_NETWORK' || !err.response ? 'Cannot reach server. Is the backend running on port 5000?' : 'Registration failed');
+      let message = err.response?.data?.error || 'Registration failed';
+      
+      // Show helpful error for network/connection issues
+      if (err.code === 'ERR_NETWORK' || !err.response) {
+        const backendURL = import.meta.env.VITE_API_URL || 'https://kodbank-pzd4.onrender.com/api';
+        message = `Cannot reach backend server at ${backendURL}. Please check if the backend is running and accessible.`;
+      }
+      
       setError(message);
     } finally {
       setLoading(false);

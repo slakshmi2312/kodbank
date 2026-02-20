@@ -21,7 +21,15 @@ export default function Login() {
       await api.post('/login', form);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.error || 'Login failed');
+      let message = err.response?.data?.error || 'Login failed';
+      
+      // Show helpful error for network/connection issues
+      if (err.code === 'ERR_NETWORK' || !err.response) {
+        const backendURL = import.meta.env.VITE_API_URL || 'https://kodbank-pzd4.onrender.com/api';
+        message = `Cannot reach backend server at ${backendURL}. Please check if the backend is running and accessible.`;
+      }
+      
+      setError(message);
     } finally {
       setLoading(false);
     }

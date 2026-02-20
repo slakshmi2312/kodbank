@@ -31,8 +31,8 @@ export default function Dashboard() {
       }
       // Network error - backend not reachable
       if (err.code === 'ERR_NETWORK' || !err.response) {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-        setError(`Cannot reach backend API. Check if backend is running at ${apiUrl}. If deployed, set VITE_API_URL in Vercel environment variables.`);
+        const backendURL = import.meta.env.VITE_API_URL || 'https://kodbank-pzd4.onrender.com/api';
+        setError(`Cannot reach backend server at ${backendURL}. Please check if the backend is running and accessible.`);
         return;
       }
       setError(err.response?.data?.error || 'Failed to fetch balance');
