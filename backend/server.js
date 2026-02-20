@@ -10,7 +10,7 @@ const authRoutes = require('./routes/authRoutes');
 const balanceRoutes = require('./routes/balanceRoutes');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Middleware - allow localhost, 127.0.0.1, and Vercel deployment URLs
 const allowedOrigins = [
@@ -49,4 +49,5 @@ app.get('/health', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Kodbank backend running on http://localhost:${PORT}`);
+  console.log(`Server URL: http://localhost:${PORT}`);
 });
